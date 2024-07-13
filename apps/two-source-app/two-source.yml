@@ -8,10 +8,10 @@ spec:
     namespace: my-task
     server: 'https://kubernetes.default.svc'
   source:
-  - path: data/single-source
+  - path: data/two-source/source-one
     repoURL: 'https://github.com/bitthalpatidar/argocd-task.git'
     targetRevision: HEAD
-  - path: data/two-source
+  - path: data/two-source/source-two
     repoURL: 'https://github.com/bitthalpatidar/argocd-task.git'
     targetRevision: HEAD
   project: default
