@@ -9,7 +9,7 @@ spec:
     server: 'https://kubernetes.default.svc'
   source:
     repoURL: 'https://github.com/bitthalpatidar/argocd-task.git'
-    path: data/
+    path: data/single-helm
     targetRevision: HEAD
     helm:
       valueFiles:
