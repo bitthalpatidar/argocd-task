@@ -8,12 +8,12 @@ spec:
     namespace: my-task
     server: 'https://kubernetes.default.svc'
   source:
-    - path: data/single-source
-      repoURL: 'https://github.com/bitthalpatidar/argocd-task.git'
-      targetRevision: HEAD
-    - path: data/two-source
-      repoURL: 'https://github.com/bitthalpatidar/argocd-task.git'
-      targetRevision: HEAD
+  - path: data/single-source
+    repoURL: 'https://github.com/bitthalpatidar/argocd-task.git'
+    targetRevision: HEAD
+  - path: data/two-source
+    repoURL: 'https://github.com/bitthalpatidar/argocd-task.git'
+    targetRevision: HEAD
   project: default
   syncPolicy:
     automated:
