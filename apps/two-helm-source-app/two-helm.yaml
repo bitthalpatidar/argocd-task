@@ -1,36 +1,23 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: two-helm-app
-  namespace: argocd
+  name: meta-helm-chart-app
+  namespace: argocd  # Adjust namespace as needed
 spec:
-  project: default
+  project: default  # Specify the ArgoCD project name
   destination:
-    server: 'https://kubernetes.default.svc'
-    namespace: my-task
-  sources:
+    server: https://kubernetes.default.svc  # Kubernetes API server URL
+    namespace: my-task  # Namespace where the Helm chart will be deployed
+  source:
     repoURL: 'https://github.com/bitthalpatidar/argocd-task.git'
-    path: data/two-helm  # Common path for both charts in the repository
+    path: data/two-helm/meta-helm-chart  # Path to the meta-helm-chart directory
     targetRevision: HEAD
     helm:
-      charts:
-        - name: helm-chart-1
-          path: data/two-helm/helm-chart-1  # Relative path within 'data/two-helm' for helm-chart-1
-          chart: data/two-helm/helm-chart-1  # Helm chart name or directory within 'path'
-          version: 0.1.0  # Version of helm-chart-1
-          valuesFiles:
-            - data/two-helm/helm-chart-1/values.yaml  # Adjust path as per your directory structure
-
-        - name: helm-chart-2
-          path: data/two-helm/helm-chart-2  # Relative path within 'data/two-helm' for helm-chart-2
-          chart: data/two-helm/helm-chart-2  # Helm chart name or directory within 'path'
-          version: 0.1.0  # Version of helm-chart-2
-          valuesFiles:
-            - data/two-helm/helm-chart-2/values.yaml  # Adjust path as per your directory structure
-
+      valueFiles:
+        - values.yaml  # Path to values.yaml for meta-helm-chart
   syncPolicy:
     automated:
-      prune: true
-      selfHeal: true
+      prune: true  # Enable pruning of resources not managed by ArgoCD
+      selfHeal: true  # Enable self-healing of resources
     syncOptions:
-      - CreateNamespace=true
+      - CreateNamespace=true  # Ensure namespace is created if not exists
