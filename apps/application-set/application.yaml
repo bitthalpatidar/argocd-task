@@ -30,7 +30,7 @@ spec:
           selfHeal: true
         syncOptions:
           - CreateNamespace=true  # Ensure namespace is created if not exists
-      source:
+      sources:
         # Source for Helm charts
         helm:
           chart: '{{item.path}}'  # Path to the Helm chart directory
