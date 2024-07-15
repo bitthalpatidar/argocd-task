@@ -9,19 +9,22 @@ spec:
     server: 'https://kubernetes.default.svc'
     namespace: my-task
   source:
-    helm:
-      # Meta Helm Chart
-      chart: data/two-helm/meta-helm-chart
-      version: 0.1.0
-      values: data/two-helm//meta-helm-chart/values.yaml
-      # Dependencies
-      dependencies:
-        - name: helm-chart-1
-          version: 0.1.0
-          repository: data/two-helm/helm-chart-1
-        - name: helm-chart-2
-          version: 0.1.0
-          repository: data/two-helm/helm-chart-2
+    # Source for Helm chart 1
+    - repoURL: 'https://github.com/bitthalpatidar/argocd-task.git'
+      path: data/two-helm/helm-chart-1
+      targetRevision: HEAD
+      helm:
+        valueFiles:
+          - values.yaml  # Adjust path as per your directory structure
+
+    # Source for Helm chart 2
+    - repoURL: 'https://github.com/bitthalpatidar/argocd-task.git'
+      path: data/two-helm/helm-chart-2
+      targetRevision: HEAD
+      helm:
+        valueFiles:
+          - values.yaml  # Adjust path as per your directory structure
+
   syncPolicy:
     automated:
       prune: true
