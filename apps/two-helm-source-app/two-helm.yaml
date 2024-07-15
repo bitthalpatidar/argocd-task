@@ -15,7 +15,7 @@ spec:
       targetRevision: HEAD
       helm:
         valueFiles:
-          - values.yaml  # Adjust path as per your directory structure
+          - data/two-helm/helm-chart-1/values.yaml  # Adjust path as per your directory structure
 
     # Source for Helm chart 2
     - repoURL: 'https://github.com/bitthalpatidar/argocd-task/tree/main/data/two-helm/helm-chart-2'
@@ -23,7 +23,7 @@ spec:
       targetRevision: HEAD
       helm:
         valueFiles:
-          - values.yaml  # Adjust path as per your directory structure
+          - data/two-helm/helm-chart-2/values.yaml  # Adjust path as per your directory structure
 
   syncPolicy:
     automated:
