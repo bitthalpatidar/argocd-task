@@ -8,28 +8,29 @@ spec:
     - list:
         elements:
           - name: app1
-            source:
-              repoURL: 'https://github.com/bitthalpatidar/argocd-task.git'
-              targetRevision: main
-              path: data/github-helm/github
+            repoURL: https://github.com/bitthalpatidar/argocd-task.git
+            revision: main
+            path: data/application-set-data/app1
+            cluster:
+              server: https://kubernetes.default.svc
+              namespace: app1-namespace
           - name: app2
-            source:
-              repoURL: 'https://github.com/bitthalpatidar/argocd-task.git'
-              targetRevision: main
-              path: data/single-source
+            repoURL: https://github.com/bitthalpatidar/argocd-task.git
+            revision: main
+            path: data/application-set-data/app2
+            cluster:
+              server: https://kubernetes.default.svc
+              namespace: app2-namespace
   template:
+    metadata:
+      labels:
+        app: {{name}}
     spec:
       project: default
-      syncPolicy:
-        automated:
-          prune: true
-          selfHeal: true
-        syncOptions:
-          - CreateNamespace=true
       source:
-        repoURL: '{{repoURL}}'
-        targetRevision: '{{targetRevision}}'
-        path: '{{path}}'
+        repoURL: {{repoURL}}
+        targetRevision: {{revision}}
+        path: {{path}}
       destination:
-        server: 'https://kubernetes.default.svc'
-        namespace: '{{name}}'
+        server: {{cluster.server}}
+        namespace: {{cluster.namespace}}
