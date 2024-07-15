@@ -1,0 +1,49 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: mixed-source-set
+  namespace: argocd
+spec:
+  generators:
+    # Generator for Helm chart source
+    - helm:
+        repoURL: 'https://github.com/bitthalpatidar/argocd-task.git'
+        chart: my-chart
+        version: 1.2.3
+    # Generator for Git source
+    - git:
+        repoURL: 'https://github.com/bitthalpatidar/argocd-task.git'
+        revision: HEAD
+        directories:
+          - path: data/two-source/source-one
+            targetRevision: HEAD
+          - path: data/two-source/source-two
+            targetRevision: HEAD
+  template:
+    metadata:
+      name: '{{ .Chart.Name }}'
+    spec:
+      project: default
+      sources:
+        # Source for Helm chart
+       - helm:
+          repoURL: 'https://github.com/bitthalpatidar/argocd-task.git'
+          path: data/single-helm
+          targetRevision: HEAD
+          helm:
+            valueFiles:
+              - values.yaml
+        # Source for Git repository
+       - git:
+          path: data/single-source
+          repoURL: 'https://github.com/bitthalpatidar/argocd-task.git'
+          targetRevision: HEAD
+      destination:
+        server: 'https://kubernetes.default.svc'
+        namespace: my-application-set
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
