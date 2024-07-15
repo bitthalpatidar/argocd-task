@@ -29,7 +29,7 @@ spec:
       source:
         repoURL: 'https://github.com/bitthalpatidar/argocd-task.git'
         targetRevision: HEAD
-        path: '{{path}}'
+        path: data/github-helm/helm/
         helm:
           valueFiles:
-            - 'data/github-helm/helm/values.yaml'
+            - values.yaml
