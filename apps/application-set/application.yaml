@@ -1,43 +1,48 @@
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
-  name: helm-and-git-applicationset
+  name: my-applicationset-app
   namespace: argocd
 spec:
   generators:
-    # Generator for Helm repositories
-    - helm:
-        # Path to Helm charts directory relative to the repository root
-        paths:
-          - 'data/two-helm/helm-chart-1'
-          - 'data/two-helm/helm-chart-2'
+    # Generator for the first Git repository source
+    - git:
+        repoURL: 'https://github.com/bitthalpatidar/argocd-task.git'
+        path: 'data/github-helm/github'
+        # Optional: specify the revision (branch/tag/commit) to use
+        ref: HEAD
+
+    # Generator for the second Git repository source with Helm
+    - git:
+        repoURL: 'https://github.com/bitthalpatidar/argocd-task.git'
+        path: 'data/github-helm/helm'
+        # Optional: specify the revision (branch/tag/commit) to use
+        ref: HEAD
 
   template:
     metadata:
-      # Naming pattern for each generated application
       name: '{{name}}-{{namespace}}'
     spec:
-      # Project within Argo CD where the applications will be managed
       project: default
       destination:
-        # Kubernetes API server URL
         server: 'https://kubernetes.default.svc'
-        # Namespace where applications will be deployed
-        namespace: my-applicationset
+        namespace: my-appicationset
       syncPolicy:
         automated:
           prune: true
           selfHeal: true
         syncOptions:
-          - CreateNamespace=true  # Ensure namespace is created if not exists
+          - CreateNamespace=true
       sources:
-        # Source for Helm charts
-        helm:
-          chart: '{{item.path}}'  # Path to the Helm chart directory
-          version: 0.1.0  # Version of the Helm chart if applicable
-          values: '{{pathToChart}}/values.yaml'  # Path to values.yaml file for customization
-        # Source for Git repository
-        git:
-          repoURL: 'https://github.com/bitthalpatidar/argocd-task.git'  # Git repository URL
-          path: 'data/single-source'  # Path within the Git repository
-          ref: main  # Branch or reference within the Git repository
+        - git:
+            repoURL: '{{item.repoURL}}'
+            path: '{{item.path}}'
+            ref: '{{item.ref}}'
+
+          # Specify Helm values only for the Helm source
+          {{- if (contains "helm" .item) }}
+          helm:
+            chart: '{{item.path}}'  # Path to the Helm chart directory within the Git repo
+            version: 0.1.0  # Specify the version of the Helm chart
+            values: '{{item.path}}/values.yaml'  # Path to values.yaml for Helm customization
+          {{- end }}
