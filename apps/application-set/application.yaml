@@ -17,7 +17,7 @@ spec:
       source:
         repoURL: https://github.com/bitthalpatidar/argocd-task.git
         targetRevision: HEAD
-        path: '{{path}}'
+        path: data/github-helm
       destination:
         server: 'https://kubernetes.default.svc'
         namespace: my-applicationset
