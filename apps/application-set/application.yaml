@@ -13,14 +13,14 @@ spec:
             path: data/application-set-data/app1
             cluster:
               server: https://kubernetes.default.svc
-              namespace: app1-namespace
+              namespace: app-namespace
           - name: app2
             repoURL: https://github.com/bitthalpatidar/argocd-task.git
             revision: main
             path: data/application-set-data/app2
             cluster:
               server: https://kubernetes.default.svc
-              namespace: app2-namespace
+              namespace: app-namespace
   template:
     metadata:
       labels:
@@ -30,7 +30,7 @@ spec:
       source:
         repoURL: {{repoURL}}
         targetRevision: {{revision}}
-        path: {{path}}
+        path: data/application-set-data/{{name}}
       destination:
         server: {{cluster.server}}
         namespace: {{cluster.namespace}}
