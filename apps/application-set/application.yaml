@@ -40,9 +40,9 @@ spec:
             ref: '{{item.ref}}'
 
           # Specify Helm values only for the Helm source
-          {{- if (contains "helm" .item) }}
-          helm:
-            chart: data/single-helm  # Path to the Helm chart directory within the Git repo
-            version: 0.1.0  # Specify the version of the Helm chart
-            values: data/single-helm/values.yaml  # Path to values.yaml for Helm customization
-          {{- end }}
+
+        -  helm:
+              chart: data/single-helm  # Path to the Helm chart directory within the Git repo
+              version: 0.1.0  # Specify the version of the Helm chart
+              values: data/single-helm/values.yaml  # Path to values.yaml for Helm customization
+
