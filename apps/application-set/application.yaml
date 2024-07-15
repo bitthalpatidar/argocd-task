@@ -30,14 +30,14 @@ spec:
           selfHeal: true
         syncOptions:
           - CreateNamespace=true  # Ensure namespace is created if not exists
-      sources:
+      source:
         # Source for Helm charts
-        - helm:
-            chart: 'data/two-helm/helm-chart-1'  # Path to the Helm chart directory
-            version: 0.1.0 # Version of the Helm chart if applicable
-            values: 'data/two-helm/helm-chart-1/values.yaml'  # Path to values.yaml file for customization
+        helm:
+          chart: '{{item.path}}'  # Path to the Helm chart directory
+          version: 0.1.0  # Version of the Helm chart if applicable
+          values: '{{pathToChart}}/values.yaml'  # Path to values.yaml file for customization
         # Source for Git repository
-        - git:
-            repoURL: 'https://github.com/bitthalpatidar/argocd-task.git'  # Git repository URL
-            path: 'data/single-source'  # Path within the Git repository
-            ref: main  # Branch or reference within the Git repository
+        git:
+          repoURL: 'https://github.com/bitthalpatidar/argocd-task.git'  # Git repository URL
+          path: 'data/single-source'  # Path within the Git repository
+          ref: main  # Branch or reference within the Git repository
