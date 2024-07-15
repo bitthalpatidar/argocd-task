@@ -17,6 +17,9 @@ spec:
     spec:
       project: default
       sources:
+        - repoURL: 'https://github.com/bitthalpatidar/argocd-task.git'
+          path: data/single-source
+          targetRevision: HEAD
         - repoURL: https://github.com/bitthalpatidar/argocd-task.git
           targetRevision: HEAD
           path: data/github-helm/helm
@@ -24,9 +27,7 @@ spec:
             releaseName: my-nginx
             valueFiles:
               - values.yaml
-        - repoURL: 'https://github.com/bitthalpatidar/argocd-task.git'
-          path: data/single-source
-          targetRevision: HEAD
+
       destination:
         server: 'https://kubernetes.default.svc'
         namespace: my-applicationset
