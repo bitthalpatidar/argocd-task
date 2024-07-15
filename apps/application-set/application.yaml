@@ -8,27 +8,27 @@ spec:
     - list:
         elements:
           - name: app1
-            repoURL: https://github.com/bitthalpatidar/argocd-task.git
-            revision: main
             path: data/application-set-data/app1
-            cluster:
-              server: https://kubernetes.default.svc
-              namespace: app-namespace
           - name: app2
-            repoURL: https://github.com/bitthalpatidar/argocd-task.git
-            revision: main
             path: data/application-set-data/app2
-            cluster:
-              server: https://kubernetes.default.svc
-              namespace: app-namespace
   template:
     metadata: new-app-set
     spec:
       project: default
-      source:
-        repoURL: {{repoURL}}
-        targetRevision: {{revision}}
-        path: data/application-set-data/{{name}}
+      sources:
+        - repoURL: https://github.com/bitthalpatidar/argocd-task.git
+          path: data/application-set-data/app1
+          targetRevision: HEAD
+        - repoURL: https://github.com/bitthalpatidar/argocd-task.git
+          path: data/application-set-data/app2
+          targetRevision: HEAD
       destination:
-        server: {{cluster.server}}
-        namespace: {{cluster.namespace}}
+          server: https://kubernetes.default.svc
+          namespace: app-namespace
+      project: default
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
