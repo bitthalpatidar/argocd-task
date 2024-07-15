@@ -1,0 +1,17 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: single-github-helm-sources-app
+  namespace: argocd
+spec:
+  project: default
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: my-task
+  sources:
+    - repoURL: https://github.com/bitthalpatidar/argocd-task.git
+      path: data/two-source/source-one
+      targetRevision: HEAD
+    - repoURL: https://github.com/bitthalpatidar/argocd-task.git
+      path: data/two-source/source-two
+      targetRevision: HEAD
