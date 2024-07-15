@@ -1,0 +1,44 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: example-project
+  namespace: argocd
+spec:
+  description: "Example project to demonstrate AppProject configuration in Argo CD"
+  # List of source repositories that can be used by applications in this project
+  sourceRepos:
+    - https://github.com/bitthalpatidar/argocd-task.git
+  # List of destination clusters and namespaces that can be used by applications in this project
+  destinations:
+    - namespace: '*'
+      server: https://kubernetes.default.svc
+  # Allow all cluster resources to be created and managed
+  clusterResourceWhitelist:
+    - group: '*'
+      kind: '*'
+  # Allow all namespace-scoped resources to be created and managed
+  namespaceResourceWhitelist:
+    - group: '*'
+      kind: '*'
+  # Optional: specify roles and policies for the project
+  roles:
+    - name: admin
+      description: "Admin role with full access"
+      policies:
+        - p, proj:example-project:admin, applications, *, example-project/*, allow
+      groups:
+        - example-admins
+    - name: read-only
+      description: "Read-only role with limited access"
+      policies:
+        - p, proj:example-project:read-only, applications, get, example-project/*, allow
+      groups:
+        - example-readers
+  # Optional: specify cluster resource blacklist (denylist)
+  clusterResourceBlacklist:
+    - group: argoproj.io
+      kind: Application
+  # Optional: specify namespace resource blacklist (denylist)
+  namespaceResourceBlacklist:
+    - group: ''
+      kind: Secret
