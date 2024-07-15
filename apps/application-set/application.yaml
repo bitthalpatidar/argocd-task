@@ -12,7 +12,9 @@ spec:
           - name: app2
             path: data/application-set-data/app2
   template:
-    metadata: new-app-set
+    metadata:
+      labels:
+        app: new-app-set
     spec:
       project: default
       sources:
@@ -23,9 +25,8 @@ spec:
           path: data/application-set-data/app2
           targetRevision: HEAD
       destination:
-          server: https://kubernetes.default.svc
-          namespace: app-namespace
-      project: default
+        server: https://kubernetes.default.svc
+        namespace: app-namespace
       syncPolicy:
         automated:
           prune: true
