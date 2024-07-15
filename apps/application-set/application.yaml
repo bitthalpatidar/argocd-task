@@ -26,7 +26,7 @@ spec:
       project: default
       sources:
         # Source for Helm chart
-       - helm:
+        helm:
           repoURL: 'https://github.com/bitthalpatidar/argocd-task.git'
           path: data/single-helm
           targetRevision: HEAD
@@ -34,7 +34,7 @@ spec:
             valueFiles:
               - values.yaml
         # Source for Git repository
-       - git:
+        git:
           path: data/single-source
           repoURL: 'https://github.com/bitthalpatidar/argocd-task.git'
           targetRevision: HEAD
