@@ -7,17 +7,14 @@ spec:
   generators:
     - git:
         repoURL: 'https://github.com/bitthalpatidar/argocd-task.git'
+        revision: HEAD  # Specify the branch or tag to use, e.g., 'main', 'master', or a specific commit hash
         directories:
           - path: 'data/github-helm/github'
-            # Optional: specify the revision (branch/tag/commit) to use
-            targetRevision: HEAD
           - path: 'data/github-helm/helm'
-            # Optional: specify the revision (branch/tag/commit) to use
-            targetRevision: HEAD
 
   template:
     metadata:
-      name: '{{path.basename}}-{{targetRevision}}'
+      name: '{{path.basename}}-{{revision}}'
     spec:
       project: default  # Specify the Argo CD project name where applications will be managed
       destination:
@@ -31,9 +28,8 @@ spec:
           - CreateNamespace=true  # Ensure namespace is created if not exists
       source:
         repoURL: 'https://github.com/bitthalpatidar/argocd-task.git'
-        path: data/github-helm/helm
         targetRevision: HEAD
+        path: '{{path}}'
         helm:
           valueFiles:
-            - values.yaml
-    
+            - 'data/github-helm/helm/values.yaml'
