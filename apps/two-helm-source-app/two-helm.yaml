@@ -10,7 +10,7 @@ spec:
     namespace: my-task
   source:
     # Source for Helm chart 1
-    - repoURL: 'https://github.com/bitthalpatidar/argocd-task.git'
+    - repoURL: 'https://github.com/bitthalpatidar/argocd-task/tree/main/data/two-helm/helm-chart-1'
       path: data/two-helm/helm-chart-1
       targetRevision: HEAD
       helm:
@@ -18,7 +18,7 @@ spec:
           - values.yaml  # Adjust path as per your directory structure
 
     # Source for Helm chart 2
-    - repoURL: 'https://github.com/bitthalpatidar/argocd-task.git'
+    - repoURL: 'https://github.com/bitthalpatidar/argocd-task/tree/main/data/two-helm/helm-chart-2'
       path: data/two-helm/helm-chart-2
       targetRevision: HEAD
       helm:
