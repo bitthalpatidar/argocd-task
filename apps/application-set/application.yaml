@@ -12,7 +12,7 @@ spec:
         ref: HEAD
 
     # Generator for the second Git repository source with Helm
-    - git:
+    - helm:
         repoURL: 'https://github.com/bitthalpatidar/argocd-task.git'
         path: 'data/github-helm/helm'
         ref: HEAD
