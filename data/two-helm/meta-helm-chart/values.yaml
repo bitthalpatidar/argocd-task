@@ -1,0 +1,3 @@
+# Add any global values you want to override for the sub-charts
+global:
+  log_level: INFO
