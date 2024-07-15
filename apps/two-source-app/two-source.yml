@@ -7,7 +7,7 @@ spec:
   destination:
     namespace: my-task
     server: 'https://kubernetes.default.svc'
-  source:
+  sources:
     - path: data/two-source/source-one
       repoURL: 'https://github.com/bitthalpatidar/argocd-task.git'
       targetRevision: HEAD
