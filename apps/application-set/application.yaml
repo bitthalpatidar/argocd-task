@@ -1,35 +1,23 @@
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
-  name: helm-and-github-applicationset
+  name: example-appset
   namespace: argocd
 spec:
   generators:
-    - git:
-        repoURL: 'https://github.com/bitthalpatidar/argocd-task.git'
-        revision: HEAD  # Specify the branch or tag to use, e.g., 'main', 'master', or a specific commit hash
-        directories:
-          - path: 'data/github-helm/github'
-          - path: 'data/github-helm/helm'
-
+    - list:
+        elements:
+          - name: app1
+            path: data/github-helm/github
+          - name: app2
+            path: data/github-helm/helm
   template:
-    metadata:
-      name: '{{path.basename}}-{{revision}}'
     spec:
-      project: default  # Specify the Argo CD project name where applications will be managed
-      destination:
-        server: 'https://kubernetes.default.svc'  # Kubernetes API server URL
-        namespace: my-applicationset  # Namespace where applications will be deployed
-      syncPolicy:
-        automated:
-          prune: true  # Enable pruning of resources not managed by Argo CD
-          selfHeal: true  # Enable self-healing of resources
-        syncOptions:
-          - CreateNamespace=true  # Ensure namespace is created if not exists
+      project: default
       source:
-        repoURL: 'https://github.com/bitthalpatidar/argocd-task.git'
+        repoURL: https://github.com/your/repo.git
         targetRevision: HEAD
-        path: data/github-helm/helm/
-        helm:
-          valueFiles:
-            - values.yaml
+        path: '{{path}}'
+      destination:
+        server: 'https://kubernetes.default.svc'
+        namespace: my-applicationset
