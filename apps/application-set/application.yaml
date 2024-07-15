@@ -8,16 +8,25 @@ spec:
     - list:
         elements:
           - name: app1
-            path: data/github-helm/github
+            path: data/single-source
           - name: app2
             path: data/github-helm/helm
   template:
+    metadata:
+      name: '{{name}}' # This will be set dynamically based on the generators
     spec:
       project: default
-      source:
-        repoURL: https://github.com/bitthalpatidar/argocd-task.git
-        targetRevision: HEAD
-        path: data/github-helm
+      sources:
+        - repoURL: https://github.com/bitthalpatidar/argocd-task.git
+          targetRevision: HEAD
+          path: data/github-helm/helm
+          helm:
+            releaseName: my-nginx
+            valueFiles:
+              - values.yaml
+        - repoURL: 'https://github.com/bitthalpatidar/argocd-task.git'
+          path: data/single-source
+          targetRevision: HEAD
       destination:
         server: 'https://kubernetes.default.svc'
         namespace: my-applicationset
