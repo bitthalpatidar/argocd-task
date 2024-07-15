@@ -1,7 +1,7 @@
 dependencies:
   - name: helm-chart-1
     version: 0.1.0
-    repository: data/two-helm/helm-chart-1
+    repository: file://../helm-chart-1
   - name: helm-chart-2
     version: 0.1.0
-    repository: data/two-helm/helm-chart-2
+    repository: file://../helm-chart-2
