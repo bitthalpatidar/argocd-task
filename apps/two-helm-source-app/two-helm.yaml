@@ -9,21 +9,24 @@ spec:
     server: 'https://kubernetes.default.svc'
     namespace: my-task
   source:
-    # Source for Helm chart 1
-    - repoURL: 'https://github.com/bitthalpatidar/argocd-task/tree/main/data/two-helm/helm-chart-1'
-      path: data/two-helm/helm-chart-1
-      targetRevision: HEAD
-      helm:
-        valueFiles:
-          - data/two-helm/helm-chart-1/values.yaml  # Adjust path as per your directory structure
+    repoURL: 'https://github.com/bitthalpatidar/argocd-task.git'
+    path: data/two-helm  # Common path for both charts in the repository
+    targetRevision: HEAD
+    helm:
+      charts:
+        - name: helm-chart-1
+          path: data/two-helm/helm-chart-1  # Relative path within 'data/two-helm' for helm-chart-1
+          chart: data/two-helm/helm-chart-1  # Helm chart name or directory within 'path'
+          version: 0.1.0  # Version of helm-chart-1
+          valuesFiles:
+            - data/two-helm/helm-chart-1/values.yaml  # Adjust path as per your directory structure
 
-    # Source for Helm chart 2
-    - repoURL: 'https://github.com/bitthalpatidar/argocd-task/tree/main/data/two-helm/helm-chart-2'
-      path: data/two-helm/helm-chart-2
-      targetRevision: HEAD
-      helm:
-        valueFiles:
-          - data/two-helm/helm-chart-2/values.yaml  # Adjust path as per your directory structure
+        - name: helm-chart-2
+          path: data/two-helm/helm-chart-2  # Relative path within 'data/two-helm' for helm-chart-2
+          chart: data/two-helm/helm-chart-2  # Helm chart name or directory within 'path'
+          version: 0.1.0  # Version of helm-chart-2
+          valuesFiles:
+            - data/two-helm/helm-chart-2/values.yaml  # Adjust path as per your directory structure
 
   syncPolicy:
     automated:
