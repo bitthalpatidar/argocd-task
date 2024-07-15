@@ -1,23 +1,16 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: two-source
-  namespace: argocd
+  name: two-sources
 spec:
-  destination:
-    namespace: my-task
-    server: 'https://kubernetes.default.svc'
-  sources:
-    - path: data/two-source/source-one
-      repoURL: 'https://github.com/bitthalpatidar/argocd-task.git'
-      targetRevision: HEAD
-    - path: data/two-source/source-two
-      repoURL: 'https://github.com/bitthalpatidar/argocd-task.git'
-      targetRevision: HEAD
   project: default
-  syncPolicy:
-    automated:
-      prune: true
-      selfHeal: true
-    syncOptions:
-      - CreateNamespace=true
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: my-task
+  sources:
+    - repoURL: https://github.com/bitthalpatidar/argocd-task.git
+      path: data/two-source/source-one
+      targetRevision: HEAD
+    - repoURL: https://github.com/bitthalpatidar/argocd-task.git
+      path: data/two-source/source-two
+      targetRevision: HEAD
