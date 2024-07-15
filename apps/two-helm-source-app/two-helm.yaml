@@ -7,7 +7,7 @@ spec:
   project: default
   source:
     repoURL: 'https://github.com/bitthalpatidar/argocd-task.git'
-    path: data/two-helm/meta-helm-chart
+    path: data/two-helm/meta-hellm-chart
     targetRevision: HEAD
     helm:
       valueFiles:
