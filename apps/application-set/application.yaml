@@ -22,9 +22,7 @@ spec:
               server: https://kubernetes.default.svc
               namespace: app-namespace
   template:
-    metadata:
-      labels:
-        app: {{name}}
+    metadata: new-app-set
     spec:
       project: default
       source:
