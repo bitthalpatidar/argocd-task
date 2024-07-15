@@ -1,5 +1,11 @@
 apiVersion: v2
 name: meta-helm-chart
-description: A Helm chart that includes other Helm charts as dependencies
+description: A meta Helm chart to include helm-chart-1 and helm-chart-2
 version: 0.1.0
-appVersion: "1.0"
+dependencies:
+  - name: helm-chart-1
+    version: 0.1.0
+    repository: data/two-helm/helm-chart-1
+  - name: helm-chart-2
+    version: 0.1.0
+    repository: data/two-helm//helm-chart-2
