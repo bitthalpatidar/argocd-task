@@ -8,29 +8,17 @@ spec:
     - list:
         elements:
           - name: app1
-            path: data/single-source
+            source:
+              repoURL: 'https://github.com/bitthalpatidar/argocd-task.git'
+              targetRevision: main
+              path: data/github-helm/github
           - name: app2
-            path: data/github-helm/helm
+            source:
+              repoURL: 'https://github.com/bitthalpatidar/argocd-task.git'
+              targetRevision: main
+              path: data/single-source
   template:
-    metadata:
-      name: '{{name}}' # This will be set dynamically based on the generators
     spec:
-      project: default
-      sources:
-        - repoURL: 'https://github.com/bitthalpatidar/argocd-task.git'
-          path: data/single-source
-          targetRevision: HEAD
-        - repoURL: https://github.com/bitthalpatidar/argocd-task.git
-          targetRevision: HEAD
-          path: data/github-helm/helm
-          helm:
-            releaseName: my-nginx
-            valueFiles:
-              - values.yaml
-
-      destination:
-        server: 'https://kubernetes.default.svc'
-        namespace: my-applicationset
       project: default
       syncPolicy:
         automated:
@@ -38,3 +26,10 @@ spec:
           selfHeal: true
         syncOptions:
           - CreateNamespace=true
+      source:
+        repoURL: '{{repoURL}}'
+        targetRevision: '{{targetRevision}}'
+        path: '{{path}}'
+      destination:
+        server: 'https://kubernetes.default.svc'
+        namespace: '{{name}}'
