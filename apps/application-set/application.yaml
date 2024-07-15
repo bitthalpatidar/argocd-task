@@ -1,43 +1,44 @@
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
-  name: my-applicationset-app
+  name: helm-and-github-applicationset
   namespace: argocd
 spec:
   generators:
-    # Generator for the first Git repository source
-    - git:
-        repoURL: 'https://github.com/bitthalpatidar/argocd-task.git'
-        path: 'data/github-helm/github'
-        ref: HEAD
-
-    # Generator for the second Git repository source with Helm
+    # Generator for Helm repository source
     - helm:
-        repoURL: 'https://github.com/bitthalpatidar/argocd-task.git'
-        path: 'data/github-helm/helm'
-        ref: HEAD
+        paths:
+          - 'data/github-helm/helm'  # Adjust path to your Helm chart directory
+
+    # Generator for GitHub repository source
+    - git:
+        repoURL: 'https://github.com/bitthalpatidar/argocd-task.git'  # Replace with your GitHub repository URL
+        path: 'data/github-helm/github'  # Adjust path to your application manifests in the repository
+        ref: HEAD  # Specify the branch or tag to use, e.g., 'main', 'master', or a specific commit hash
 
   template:
     metadata:
       name: '{{name}}-{{namespace}}'
     spec:
-      project: default
+      project: default  # Specify the Argo CD project name where applications will be managed
       destination:
-        server: 'https://kubernetes.default.svc'
-        namespace: my-applicationset
+        server: 'https://kubernetes.default.svc'  # Kubernetes API server URL
+        namespace: my-applicationset  # Namespace where applications will be deployed
       syncPolicy:
         automated:
-          prune: true
-          selfHeal: true
+          prune: true  # Enable pruning of resources not managed by Argo CD
+          selfHeal: true  # Enable self-healing of resources
         syncOptions:
-          - CreateNamespace=true
+          - CreateNamespace=true  # Ensure namespace is created if not exists
       sources:
+        # Source for Helm chart
+        - helm:
+            chart: 'data/github-helm/helm'  # Path to the Helm chart directory within the Git repo
+            version: 0.1.0  # Specify the version of the Helm chart
+            values: 'data/github-helm/helm/values.yaml'  # Path to values.yaml for Helm customization
+
+        # Source for GitHub repository
         - git:
             repoURL: '{{item.repoURL}}'
             path: '{{item.path}}'
             ref: '{{item.ref}}'
-
-        - helm:
-            chart: '{{item.path}}'  # Path to the Helm chart directory within the Git repo
-            version: 0.1.0  # Specify the version of the Helm chart
-            values: '{{item.path}}/values.yaml'  # Path to values.yaml for Helm customization
