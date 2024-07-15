@@ -8,7 +8,7 @@ spec:
   destination:
     server: 'https://kubernetes.default.svc'
     namespace: my-task
-  source:
+  sources:
     repoURL: 'https://github.com/bitthalpatidar/argocd-task.git'
     path: data/two-helm  # Common path for both charts in the repository
     targetRevision: HEAD
