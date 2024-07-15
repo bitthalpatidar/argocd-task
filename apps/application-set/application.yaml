@@ -9,14 +9,12 @@ spec:
     - git:
         repoURL: 'https://github.com/bitthalpatidar/argocd-task.git'
         path: 'data/github-helm/github'
-        # Optional: specify the revision (branch/tag/commit) to use
         ref: HEAD
 
     # Generator for the second Git repository source with Helm
     - git:
         repoURL: 'https://github.com/bitthalpatidar/argocd-task.git'
         path: 'data/github-helm/helm'
-        # Optional: specify the revision (branch/tag/commit) to use
         ref: HEAD
 
   template:
@@ -26,7 +24,7 @@ spec:
       project: default
       destination:
         server: 'https://kubernetes.default.svc'
-        namespace: my-appicationset
+        namespace: my-applicationset
       syncPolicy:
         automated:
           prune: true
@@ -39,10 +37,7 @@ spec:
             path: '{{item.path}}'
             ref: '{{item.ref}}'
 
-          # Specify Helm values only for the Helm source
-
-        -  helm:
-              chart: data/single-helm  # Path to the Helm chart directory within the Git repo
-              version: 0.1.0  # Specify the version of the Helm chart
-              values: data/single-helm/values.yaml  # Path to values.yaml for Helm customization
-
+        - helm:
+            chart: '{{item.path}}'  # Path to the Helm chart directory within the Git repo
+            version: 0.1.0  # Specify the version of the Helm chart
+            values: '{{item.path}}/values.yaml'  # Path to values.yaml for Helm customization
