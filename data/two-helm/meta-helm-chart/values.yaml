@@ -1,3 +1,19 @@
-# Add any global values you want to override for the sub-charts
-global:
-  log_level: INFO
+helm-chart-1:
+  # Values specific to helm-chart-1
+  replicaCount: 1
+  image:
+    repository: nginx
+    tag: stable
+  service:
+    type: ClusterIP
+    port: 80
+
+helm-chart-2:
+  # Values specific to helm-chart-2
+  replicaCount: 1
+  image:
+    repository: redis
+    tag: stable
+  service:
+    type: ClusterIP
+    port: 6379
