@@ -9,8 +9,10 @@ spec:
         elements:
           - name: git-app
             sourceType: git
+            path: github
           - name: helm-app
             sourceType: helm
+            path: helm
   template:
     metadata:
       name: '{{name}}'
@@ -18,7 +20,7 @@ spec:
       project: default
       sources:
         - repoURL: https://github.com/bitthalpatidar/argocd-task.git
-          path: data/github-helm/github
+          path: data/github-helm/
           targetRevision: HEAD
         - repoURL: https://github.com/bitthalpatidar/argocd-task.git
           targetRevision: HEAD
