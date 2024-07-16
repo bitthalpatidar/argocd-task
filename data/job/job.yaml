@@ -10,5 +10,5 @@ spec:
       containers:
       - name: testjob
         image: busybox
-        command: ["/bin/bash","-c","while true;  do echo mypod is running; sleep 5; done"]
+        command: ["/bin/bash","-c","while true;  do echo mypod is running; done"]
       restartPolicy: Never
