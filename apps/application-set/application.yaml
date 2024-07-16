@@ -18,16 +18,19 @@ spec:
       name: '{{name}}'
     spec:
       project: default
-      source:
-        repoURL: https://github.com/bitthalpatidar/argocd-task.git
-        targetRevision: HEAD
-        path: '{{path}}'
-        helm:
-          valueFiles:
-            - values.yaml
+      sources:
+        - repoURL: https://github.com/bitthalpatidar/argocd-task.git
+          path: data/github-helm/github
+          targetRevision: HEAD
+        - repoURL: https://github.com/bitthalpatidar/argocd-task.git
+          targetRevision: HEAD
+          path: data/github-helm/helm
+          helm:
+            valueFiles:
+              - values.yaml
       destination:
         server: https://kubernetes.default.svc
-        namespace: '{{name}}-namespace'
+        namespace: my-applicationset
       syncPolicy:
         automated:
           prune: true
