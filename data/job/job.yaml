@@ -10,5 +10,5 @@ spec:
       containers:
       - name: cont1
         image: busybox
-        command: ["sh", "-c", "for i in $(seq 1 10); do echo 'mypod is running'; done"]
+        command: ["echo", "This is a test job"]
       restartPolicy: Never
