@@ -8,29 +8,28 @@ spec:
     - list:
         elements:
           - name: git-app
-            sourceType: git
-            path: github
+            repoURL: https://github.com/bitthalpatidar/argocd-task.git
+            targetRevision: HEAD
+            path: data/github-helm/github
           - name: helm-app
-            sourceType: helm
-            path: helm
+            repoURL: https://github.com/bitthalpatidar/argocd-task.git
+            targetRevision: HEAD
+            path: data/github-helm/helm
   template:
     metadata:
       name: '{{name}}'
     spec:
       project: default
-      sources:
-        - repoURL: https://github.com/bitthalpatidar/argocd-task.git
-          path: data/github-helm/
-          targetRevision: HEAD
-        - repoURL: https://github.com/bitthalpatidar/argocd-task.git
-          targetRevision: HEAD
-          path: data/github-helm/helm
-          helm:
-            valueFiles:
-              - values.yaml
+      source:
+        repoURL: '{{repoURL}}'
+        targetRevision: '{{targetRevision}}'
+        path: '{{path}}'
+        helm:
+          valueFiles:
+            - values.yaml
       destination:
         server: https://kubernetes.default.svc
-        namespace: my-applicationset
+        namespace: '{{name}}-namespace'
       syncPolicy:
         automated:
           prune: true
