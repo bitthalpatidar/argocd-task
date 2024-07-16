@@ -9,10 +9,8 @@ spec:
         elements:
           - name: git-app
             sourceType: git
-            path: data/github-helm/github
           - name: helm-app
             sourceType: helm
-            path: data/github-helm/helm
   template:
     metadata:
       name: '{{name}}'
