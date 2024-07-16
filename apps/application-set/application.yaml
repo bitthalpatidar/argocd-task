@@ -7,29 +7,32 @@ spec:
   generators:
     - list:
         elements:
-          - name: app1
-            path: data/application-set-data/app1
-          - name: app2
-            path: data/application-set-data/app2
+          - name: git-app
+            sourceType: git
+            path: data/github-helm/github
+          - name: helm-app
+            sourceType: helm
+            path: data/github-helm/helm
   template:
     metadata:
-      labels:
-        app: new-app-set
+      name: '{{name}}'
     spec:
       project: default
-      sources:
-        - repoURL: https://github.com/bitthalpatidar/argocd-task.git
-          path: data/application-set-data/app1
-          targetRevision: HEAD
-        - repoURL: https://github.com/bitthalpatidar/argocd-task.git
-          path: data/application-set-data/app2
-          targetRevision: HEAD
+      source:
+        repoURL: https://github.com/bitthalpatidar/argocd-task.git
+        targetRevision: HEAD
+        path: '{{path}}'
+        helm:
+          valueFiles:
+            - values.yaml
       destination:
         server: https://kubernetes.default.svc
-        namespace: app-namespace
+        namespace: '{{name}}-namespace'
       syncPolicy:
         automated:
           prune: true
           selfHeal: true
         syncOptions:
           - CreateNamespace=true
+          - ServerSideApply=true
+          - PrunePropagationPolicy=orphan
