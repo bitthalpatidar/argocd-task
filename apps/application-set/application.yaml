@@ -7,14 +7,14 @@ spec:
   generators:
     - list:
         elements:
-          - name: git-app
+          - name: app1
             repoURL: https://github.com/bitthalpatidar/argocd-task.git
             targetRevision: HEAD
-            path: data/github-helm/github
-          - name: helm-app
+            path: data/application-set-data/app1
+          - name: app2
             repoURL: https://github.com/bitthalpatidar/argocd-task.git
             targetRevision: HEAD
-            path: data/github-helm/helm
+            path: data/application-set-data/app2
   template:
     metadata:
       name: '{{name}}'
@@ -24,9 +24,6 @@ spec:
         repoURL: '{{repoURL}}'
         targetRevision: '{{targetRevision}}'
         path: '{{path}}'
-        helm:
-          valueFiles:
-            - values.yaml
       destination:
         server: https://kubernetes.default.svc
         namespace: '{{name}}-namespace'
