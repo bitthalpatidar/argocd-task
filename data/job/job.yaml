@@ -4,7 +4,7 @@ metadata:
   name: testjob
 spec:
   backoffLimit: 1
-  completions: 1
+  completions: 2
   template:
     metadata:
       labels:
