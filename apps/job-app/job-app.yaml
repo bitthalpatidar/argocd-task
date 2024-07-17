@@ -12,9 +12,3 @@ spec:
     repoURL: 'https://github.com/bitthalpatidar/argocd-task.git'
     targetRevision: HEAD
   project: default
-  syncPolicy:
-    automated:
-      prune: true
-      selfHeal: true
-    syncOptions:
-      - CreateNamespace=true
