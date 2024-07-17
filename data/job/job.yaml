@@ -3,7 +3,7 @@ kind: Job
 metadata:
   name: testjob
 spec:
-  backoffLimit: 2
+  backoffLimit: 1
   completions: 1
   template:
     metadata:
@@ -13,5 +13,5 @@ spec:
       containers:
       - name: testjob
         image: busybox
-        command: ["/bin/sh","-c","while true; do echo mypod is running; sleep 5; done"]
+        command: ["/bin/sh","-c","for i in {1..10}; do echo mypod is running; sleep 5; done"]
       restartPolicy: Never
