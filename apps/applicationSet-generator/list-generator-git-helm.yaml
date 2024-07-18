@@ -5,25 +5,25 @@ metadata:
   namespace: argocd
 spec:
   generators:
-  - list:
-      elements:
-      - cluster: "https://kubernetes.default.svc"
-        namespace: "application-set-generator"
-        repoURL: "https://github.com/bitthalpatidar/argocd-task.git"
-        path: "data/github-helm/github"
-        targetRevision: "main"
-        appName: "application-set-git-app"
-        sourceType: "git"
-      - cluster: "https://kubernetes.default.svc"
-        namespace: "application-set-generator"
-        repoURL: 'https://github.com/bitthalpatidar/argocd-task.git'
-        path: "data/github-helm/helm"
-        targetRevision: "HEAD"
-        appName: "application-set-git-helm"
-        sourceType: "helm"
-        helm:
-          valueFiles:
-            - values.yaml
+    - list:
+        elements:
+          - cluster: "https://kubernetes.default.svc"
+            namespace: "application-set-generator"
+            repoURL: "https://github.com/bitthalpatidar/argocd-task.git"
+            path: "data/github-helm/github"
+            targetRevision: "main"
+            appName: "application-set-git-app"
+            sourceType: "git"
+          - cluster: "https://kubernetes.default.svc"
+            namespace: "application-set-generator"
+            repoURL: "https://github.com/bitthalpatidar/argocd-task.git"
+            path: "data/github-helm/helm"
+            targetRevision: "HEAD"
+            appName: "application-set-helm-app"
+            sourceType: "helm"
+            helm:
+              valueFiles:
+                - values.yaml
   template:
     metadata:
       name: '{{appName}}'
@@ -32,10 +32,8 @@ spec:
       source:
         repoURL: '{{repoURL}}'
         targetRevision: '{{targetRevision}}'
-        {{- if eq .sourceType "git" }}
         path: '{{path}}'
-        {{- else if eq .sourceType "helm" }}
-        path: '{{path}}'
+        {{- if eq .sourceType "helm" }}
         helm:
           valueFiles:
             {{- range .helm.valueFiles }}
@@ -45,3 +43,7 @@ spec:
       destination:
         server: '{{cluster}}'
         namespace: '{{namespace}}'
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
