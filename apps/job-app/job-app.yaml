@@ -8,7 +8,16 @@ spec:
     namespace: my-task
     server: 'https://kubernetes.default.svc'
   source:
-    path: data/job
     repoURL: 'https://github.com/bitthalpatidar/argocd-task.git'
+    path: data/job
     targetRevision: HEAD
+    helm:
+      valueFiles:
+        - values.yaml
   project: default
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
