@@ -1,0 +1,26 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: applicationset-matrix
+  namespace: argocd
+spec:
+  generators:
+    - matrix:
+        appNames:
+          - helm-chart-1
+          - helm-chart-2
+        environment:
+          - name: matrix-helm
+            valuesPath: "data/two-helm/{{appName}}/values.yaml"
+  template:
+    metadata:
+      name: '{{appName}}-{{environment.name}}'
+    spec:
+      project: default
+      source:
+        repoURL: "https://github.com/bitthalpatidar/argocd-task.git"
+        targetRevision: "main"
+        path: "data/two-helm/{{appName}}"
+      destination:
+        server: "https://kubernetes.default.svc"
+        namespace: 'application-set-generator'
