@@ -11,4 +11,4 @@ spec:
       containers:
       - name: app-dog
         image: busybox
-        command: ["/bin/sh","-c","for i in {1..10}; do echo mypod is running; sleep 4; done"]
+        command: ["/bin/sh","-c","for i in {1..10}; do echo mypod is running; sleep 5; done"]
