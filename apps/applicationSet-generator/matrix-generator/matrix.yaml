@@ -10,12 +10,12 @@ spec:
           - two-helm
         environments:
           - name: helm-chart-1
-            valuesPath: "data/{{appName}}/helm-chart-1/values.yaml"
+            valuesPath: "data/two-helm/helm-chart-1/values.yaml"
           - name: helm-chart-2
-            valuesPath: "apps/{{appName}}/helm-chart-2/values.yaml"
+            valuesPath: "apps/two-helm/helm-chart-2/values.yaml"
   template:
     metadata:
-      name: '{{appName}}-{{environment.name}}'
+      name: '{{appName}}-{{environment.name}'
     spec:
       project: default
       source:
