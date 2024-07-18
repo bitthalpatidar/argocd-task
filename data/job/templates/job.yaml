@@ -11,4 +11,4 @@ spec:
       containers:
       - name: app-dog
         image: busybox
-        command: ["sh", "-c", "echo This is a randomly named job"]
+        command: ["/bin/sh","-c","for i in {1..10}; do echo mypod is running; sleep 4; done"]
