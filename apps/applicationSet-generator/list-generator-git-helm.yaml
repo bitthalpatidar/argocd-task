@@ -1,0 +1,47 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: applicationset-list
+  namespace: argocd
+spec:
+  generators:
+  - list:
+      elements:
+      - cluster: "https://kubernetes.default.svc"
+        namespace: "application-set-generator"
+        repoURL: "https://github.com/bitthalpatidar/argocd-task.git"
+        path: "data/github-helm/github"
+        targetRevision: "main"
+        appName: "application-set-git-app"
+        sourceType: "git"
+      - cluster: "https://kubernetes.default.svc"
+        namespace: "application-set-generator"
+        repoURL: 'https://github.com/bitthalpatidar/argocd-task.git'
+        path: "data/github-helm/helm"
+        targetRevision: "HEAD"
+        appName: "application-set-git-helm"
+        sourceType: "helm"
+        helm:
+          valueFiles:
+            - values.yaml
+  template:
+    metadata:
+      name: '{{appName}}'
+    spec:
+      project: default
+      source:
+        repoURL: '{{repoURL}}'
+        targetRevision: '{{targetRevision}}'
+        {{- if eq .sourceType "git" }}
+        path: '{{path}}'
+        {{- else if eq .sourceType "helm" }}
+        path: '{{path}}'
+        helm:
+          valueFiles:
+            {{- range .helm.valueFiles }}
+            - '{{ . }}'
+            {{- end }}
+        {{- end }}
+      destination:
+        server: '{{cluster}}'
+        namespace: '{{namespace}}'
