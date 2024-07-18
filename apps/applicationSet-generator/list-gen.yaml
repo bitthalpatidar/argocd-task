@@ -1,0 +1,33 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: applicationset-list-TwoGit-
+spec:
+  generators:
+  - list:
+      elements:
+      - cluster: "https://kubernetes.default.svc"
+        namespace: "application-set-generator"
+        repoURL: "https://github.com/bitthalpatidar/argocd-task.git"
+        path: "data/application-set-data/app1"
+        targetRevision: "main"
+        appName: "list1"
+      - cluster: "https://kubernetes.default.svc"
+        namespace: "application-set-generator"
+        repoURL: "https://github.com/bitthalpatidar/argocd-task.git"
+        path: "data/application-set-data/app2"
+        targetRevision: "main"
+        appName: "list2"
+  template:
+    metadata:
+      name: '{{appName}}'
+    spec:
+      project: default
+      source:
+        repoURL: '{{repoURL}}'
+        targetRevision: '{{targetRevision}}'
+        path: '{{path}}'
+      destination:
+        server: '{{cluster}}'
+        namespace: '{{namespace}}'
+
