@@ -31,6 +31,3 @@ spec:
       destination:
         server: '{{cluster}}'
         namespace: '{{namespace}}'
-      destinationNamespace: 
-        create: true
-
