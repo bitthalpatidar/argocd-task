@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
-  name: applicationset-git-helm
+  name: applicationset-git
   namespace: argocd
 spec:
   generators:
@@ -18,14 +18,11 @@ spec:
       source:
         repoURL: "https://github.com/bitthalpatidar/argocd-task.git"
         targetRevision: "main"
-        {{- if or (contains "/helm/" .path) (contains "/charts/" .path) }}
-        helm:
-          path: '{{path}}'
-          valueFiles:
-            - values.yaml
-        {{- else }}
         path: '{{path}}'
-        {{- end }}
       destination:
         server: "https://kubernetes.default.svc"
-        namespace: 'applicationset-git-helm'
+        namespace: 'git-generators'
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
