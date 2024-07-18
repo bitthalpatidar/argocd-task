@@ -6,25 +6,21 @@ metadata:
 spec:
   generators:
     - matrix:
-        appName:
+        appNames:
           - helm-chart-1
           - helm-chart-2
-        environment:
+        environments:
           - name: matrix-helm
-            valuesPath: "data/two-helm/{{item.appName}}/values.yaml"
+            valuesPath: "data/two-helm/{{item}}/values.yaml"
   template:
     metadata:
-      name: '{{item.appName}}-{{item.environment.name}}'
+      name: '{{item}}-{{item.environment.name}}'
     spec:
       project: default
       source:
         repoURL: "https://github.com/bitthalpatidar/argocd-task.git"
         targetRevision: "main"
-        path: "data/two-helm/{{item.appName}}"
+        path: "data/two-helm/{{item}}"
       destination:
         server: "https://kubernetes.default.svc"
         namespace: 'application-set-generator'
-      syncPolicy:
-        automated:
-          prune: true
-          selfHeal: true
