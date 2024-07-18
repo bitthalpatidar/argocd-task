@@ -11,16 +11,20 @@ spec:
           - helm-chart-2
         environment:
           - name: matrix-helm
-            valuesPath: "data/two-helm/{{appName}}/values.yaml"
+            valuesPath: "data/two-helm/{{item.appName}}/values.yaml"
   template:
     metadata:
-      name: '{{appName}}-{{environment.name}}'
+      name: '{{item.appName}}-{{item.environment.name}}'
     spec:
       project: default
       source:
         repoURL: "https://github.com/bitthalpatidar/argocd-task.git"
         targetRevision: "main"
-        path: "data/two-helm/{{appName}}"
+        path: "data/two-helm/{{item.appName}}"
       destination:
         server: "https://kubernetes.default.svc"
         namespace: 'application-set-generator'
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
