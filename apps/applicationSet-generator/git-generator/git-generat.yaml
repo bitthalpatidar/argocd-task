@@ -1,0 +1,31 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: applicationset-git-helm
+  namespace: argocd
+spec:
+  generators:
+    - git:
+        repoURL: "https://github.com/bitthalpatidar/argocd-task.git"
+        revision: "main"
+        directories:
+          - path: "data/github-helm/*"
+  template:
+    metadata:
+      name: '{{path.basename}}'
+    spec:
+      project: default
+      source:
+        repoURL: "https://github.com/bitthalpatidar/argocd-task.git"
+        targetRevision: "main"
+        {{- if or (contains "/helm/" .path) (contains "/charts/" .path) }}
+        helm:
+          path: '{{path}}'
+          valueFiles:
+            - values.yaml
+        {{- else }}
+        path: '{{path}}'
+        {{- end }}
+      destination:
+        server: "https://kubernetes.default.svc"
+        namespace: 'applicationset-git-helm'
