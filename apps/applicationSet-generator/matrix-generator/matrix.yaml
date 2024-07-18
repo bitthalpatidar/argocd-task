@@ -6,7 +6,7 @@ metadata:
 spec:
   generators:
     - matrix:
-        appNames:
+        appName:
           - helm-chart-1
           - helm-chart-2
         environment:
